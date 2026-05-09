@@ -4,7 +4,6 @@ import axios from "axios";
 function App() {
 
   const [formData, setFormData] = useState({
-
     gender: "",
     age: "",
     course: "",
@@ -14,10 +13,10 @@ function App() {
     anxiety: "",
     panic_attack: "",
     seek_help: ""
-
   });
 
   const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
 
@@ -29,6 +28,8 @@ function App() {
   };
 
   const handleSubmit = async () => {
+
+    setLoading(true);
 
     try {
 
@@ -46,101 +47,243 @@ function App() {
       alert("Backend Connection Error");
 
     }
+
+    setLoading(false);
   };
 
   return (
 
-    <div style={{
-      width: "400px",
-      margin: "auto",
-      marginTop: "40px",
-      fontFamily: "Arial"
-    }}>
+    <div style={styles.page}>
 
-      <h1>Student Mental Health Prediction</h1>
+      <div style={styles.card}>
 
-      <input
-        name="gender"
-        placeholder="Gender"
-        onChange={handleChange}
-      />
+        <h1 style={styles.heading}>
+          Student Mental Health Prediction
+        </h1>
 
-      <br /><br />
+        <p style={styles.subtext}>
+          AI-powered depression prediction system using Machine Learning
+        </p>
 
-      <input
-        name="age"
-        placeholder="Age"
-        onChange={handleChange}
-      />
+        <div style={styles.grid}>
 
-      <br /><br />
+          <input
+            style={styles.input}
+            name="gender"
+            placeholder="Gender"
+            onChange={handleChange}
+          />
 
-      <input
-        name="course"
-        placeholder="Course"
-        onChange={handleChange}
-      />
+          <input
+            style={styles.input}
+            name="age"
+            placeholder="Age"
+            onChange={handleChange}
+          />
 
-      <br /><br />
+          <input
+            style={styles.input}
+            name="course"
+            placeholder="Course"
+            onChange={handleChange}
+          />
 
-      <input
-        name="year"
-        placeholder="Year"
-        onChange={handleChange}
-      />
+          <input
+            style={styles.input}
+            name="year"
+            placeholder="Year"
+            onChange={handleChange}
+          />
 
-      <br /><br />
+          <input
+            style={styles.input}
+            name="cgpa"
+            placeholder="CGPA"
+            onChange={handleChange}
+          />
 
-      <input
-        name="cgpa"
-        placeholder="CGPA"
-        onChange={handleChange}
-      />
+          <input
+            style={styles.input}
+            name="marital_status"
+            placeholder="Marital Status"
+            onChange={handleChange}
+          />
 
-      <br /><br />
+          <input
+            style={styles.input}
+            name="anxiety"
+            placeholder="Anxiety (yes/no)"
+            onChange={handleChange}
+          />
 
-      <input
-        name="marital_status"
-        placeholder="Marital Status"
-        onChange={handleChange}
-      />
+          <input
+            style={styles.input}
+            name="panic_attack"
+            placeholder="Panic Attack (yes/no)"
+            onChange={handleChange}
+          />
 
-      <br /><br />
+          <input
+            style={styles.input}
+            name="seek_help"
+            placeholder="Seek Help (yes/no)"
+            onChange={handleChange}
+          />
 
-      <input
-        name="anxiety"
-        placeholder="Anxiety yes/no"
-        onChange={handleChange}
-      />
+        </div>
 
-      <br /><br />
+        <button
+          style={styles.button}
+          onClick={handleSubmit}
+        >
+          {
+            loading
+              ? "Predicting..."
+              : "Predict Mental Health"
+          }
+        </button>
 
-      <input
-        name="panic_attack"
-        placeholder="Panic Attack yes/no"
-        onChange={handleChange}
-      />
+        {
+          result && (
 
-      <br /><br />
+            <div style={styles.resultBox}>
 
-      <input
-        name="seek_help"
-        placeholder="Seek Help yes/no"
-        onChange={handleChange}
-      />
+              <h2>Prediction Result</h2>
 
-      <br /><br />
+              <p
+                style={{
+                  color:
+                    result === "Depression"
+                      ? "#ff4d4d"
+                      : "#00c853",
 
-      <button onClick={handleSubmit}>
-        Predict
-      </button>
+                  fontSize: "24px",
 
-      <br /><br />
+                  fontWeight: "bold"
+                }}
+              >
+                {result}
+              </p>
 
-      <h2>{result}</h2>
+            </div>
+          )
+        }
+
+      </div>
 
     </div>
   );
 }
+
+const styles = {
+
+  page: {
+    minHeight: "100vh",
+
+    display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    background: "linear-gradient(to right, #141e30, #243b55)",
+
+    padding: "20px",
+
+    fontFamily: "Arial"
+  },
+
+  card: {
+
+    width: "100%",
+
+    maxWidth: "700px",
+
+    backgroundColor: "white",
+
+    borderRadius: "20px",
+
+    padding: "40px",
+
+    boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
+  },
+
+  heading: {
+
+    textAlign: "center",
+
+    marginBottom: "10px",
+
+    color: "#243b55"
+  },
+
+  subtext: {
+
+    textAlign: "center",
+
+    marginBottom: "30px",
+
+    color: "gray"
+  },
+
+  grid: {
+
+    display: "grid",
+
+    gridTemplateColumns: "1fr 1fr",
+
+    gap: "15px"
+  },
+
+  input: {
+
+    padding: "14px",
+
+    borderRadius: "10px",
+
+    border: "1px solid #ccc",
+
+    fontSize: "15px",
+
+    outline: "none"
+  },
+
+  button: {
+
+    width: "100%",
+
+    marginTop: "30px",
+
+    padding: "15px",
+
+    backgroundColor: "#243b55",
+
+    color: "white",
+
+    border: "none",
+
+    borderRadius: "12px",
+
+    fontSize: "17px",
+
+    cursor: "pointer",
+
+    transition: "0.3s"
+  },
+
+  resultBox: {
+
+    marginTop: "30px",
+
+    padding: "20px",
+
+    borderRadius: "15px",
+
+    backgroundColor: "#f4f6f8",
+
+    textAlign: "center"
+  }
+
+};
 
 export default App;
